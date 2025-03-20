@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Magic Bar</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+	<!-- Floating Bar -->
+	<div id="floating-bar">
+		<div class="floating-bar-icon">✨</div>
+		<div class="floating-bar-text">
+			<div>Dream something up</div>
+			<div class="floating-bar-subtitle">Any product, any style</div>
+		</div>
+	</div>
+
+	<!-- Background Blur -->
+	<div id="blur-overlay"></div>
+
+	<!-- Expanded UI -->
+	<div id="expanded-ui">
+		<!-- Step 1: What do you want to create? (Main Image Upload) -->
+		<div class="step active" id="step-1">
+			<div class="step-header">
+				<div><span class="step-number">1</span> <span class="step-title">What do you want to create?</span>
+				</div>
+				<div class="step-chevron">▼</div>
+			</div>
+			<div class="step-content">
+				<input type="file" id="main-image-input" class="file-input" accept="image/*">
+				<div class="upload-container" id="main-image-upload">
+					<div class="upload-icon">+</div>
+					<div>Upload your image</div>
+					<div style="font-size: 12px; color: #888">Select a high-quality image to transform</div>
+				</div>
+				<div id="main-image-preview" style="display: none; margin-top: 15px;">
+					<img src="" alt="Uploaded Image" style="max-width: 100%; border-radius: 8px;">
+				</div>
+			</div>
+		</div>
+
+		<!-- Step 2: Style Selection -->
+		<div class="step" id="step-2">
+			<div class="step-header">
+				<div><span class="step-number">2</span> <span class="step-title">Select a style</span></div>
+				<div class="step-chevron">▼</div>
+			</div>
+			<div class="step-content">
+				<div class="style-options">
+					<!-- Predefined styles -->
+					<div class="style-option" style="background-image: url('https://picsum.photos/id/237/200');"
+						data-style="style1"></div>
+					<div class="style-option" style="background-image: url('https://picsum.photos/id/238/200');"
+						data-style="style2"></div>
+					<div class="style-option" style="background-image: url('https://picsum.photos/id/239/200');"
+						data-style="style3"></div>
+					<div class="style-option" style="background-image: url('https://picsum.photos/id/240/200');"
+						data-style="style4"></div>
+				</div>
+
+				<p>Or upload your own style image:</p>
+				<input type="file" id="style-image-input" class="file-input" accept="image/*">
+				<div class="upload-container" id="style-image-upload">
+					<div class="upload-icon">+</div>
+					<div>Upload style image</div>
+					<div style="font-size: 12px; color: #888">Use an image with a style you'd like to apply</div>
+				</div>
+				<div id="style-image-preview" style="display: none; margin-top: 15px;">
+					<img src="" alt="Style Image" style="max-width: 100%; border-radius: 8px;">
+				</div>
+			</div>
+		</div>
+
+		<!-- Step 3: Prompt Input (Optional) -->
+		<div class="step" id="step-3">
+			<div class="step-header">
+				<div>
+					<span class="step-number">3</span>
+					<span class="step-title">Tell us what you're looking for</span>
+					<span class="step-optional">(Optional)</span>
+				</div>
+				<div class="step-chevron">▼</div>
+			</div>
+			<div class="step-content">
+				<p>Refine your prompt to describe the design and style you're looking for. The more detail, the better!
+				</p>
+				<textarea placeholder="Describe the product you're dreaming of" rows="4"></textarea>
+				<div class="tag-buttons">
+					<button class="tag-button">Dainty</button>
+					<button class="tag-button">Minimalist</button>
+					<button class="tag-button">Bold</button>
+					<button class="tag-button">Vintage</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Action Buttons (always at the bottom) -->
+		<div style="padding: 20px;">
+			<div class="button-row">
+				<button class="clear-btn" id="clear-btn">Clear</button>
+				<button class="dream-btn" id="dream-btn"><span class="dream-icon">✨</span> Dream</button>
+			</div>
+		</div>
+
+		<!-- Generated Images (Initially Hidden) -->
+		<div id="results-container" style="display: none; padding: 20px;">
+			<h3>Select your favorite creation</h3>
+			<div class="generated-images">
+				<!-- Images will be inserted here via JavaScript -->
+			</div>
+			<div class="button-row" style="margin-top: 20px;">
+				<button class="clear-btn" id="regenerate-btn">Regenerate</button>
+				<button class="dream-btn" id="select-btn">Select & Checkout</button>
+			</div>
+		</div>
+
+		<!-- Loading Indicator (Initially Hidden) -->
+		<div id="loading-container" style="display: none; padding: 20px;">
+			<div class="loading">
+				<div class="loading-spinner"></div>
+				<p>Creating your dream design...</p>
+				<p>This will take approximately 20 seconds</p>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// DOM Elements
+		const floatingBar = document.getElementById("floating-bar");
+		const expandedUI = document.getElementById("expanded-ui");
+		const blurOverlay = document.getElementById("blur-overlay");
+		const steps = document.querySelectorAll(".step");
+		const stepHeaders = document.querySelectorAll(".step-header");
+		const mainImageUpload = document.getElementById("main-image-upload");
+		const mainImageInput = document.getElementById("main-image-input");
+		const mainImagePreview = document.getElementById("main-image-preview");
+		const styleImageUpload = document.getElementById("style-image-upload");
+		const styleImageInput = document.getElementById("style-image-input");
+		const styleImagePreview = document.getElementById("style-image-preview");
+		const styleOptions = document.querySelectorAll(".style-option");
+		const clearBtn = document.getElementById("clear-btn");
+		const dreamBtn = document.getElementById("dream-btn");
+		const resultsContainer = document.getElementById("results-container");
+		const loadingContainer = document.getElementById("loading-container");
+		const regenerateBtn = document.getElementById("regenerate-btn");
+		const selectBtn = document.getElementById("select-btn");
+		const generatedImagesContainer = document.querySelector(".generated-images");
+		const tagButtons = document.querySelectorAll(".tag-button");
+
+		// Toggle UI when clicking floating bar
+		floatingBar.onclick = function () {
+			expandedUI.classList.toggle("visible");
+			blurOverlay.classList.toggle("visible");
+
+			// Don't allow the click event to reach the document click handler
+			event.stopPropagation();
+		};
+
+		// Toggle step when clicking header
+		stepHeaders.forEach(header => {
+			header.addEventListener("click", () => {
+				const step = header.parentElement;
+
+				// Close all steps
+				steps.forEach(s => {
+					if (s !== step) {
+						s.classList.remove("active");
+					}
+				});
+
+				// Toggle the clicked step
+				step.classList.toggle("active");
+			});
+		});
+
+		// Handle Main Image Upload
+		mainImageUpload.addEventListener("click", () => {
+			mainImageInput.click();
+		});
+
+		mainImageInput.addEventListener("change", function () {
+			if (this.files && this.files[0]) {
+				const file = this.files[0];
+				const reader = new FileReader();
+
+				reader.onload = function (e) {
+					const img = mainImagePreview.querySelector("img");
+					img.src = e.target.result;
+					mainImagePreview.style.display = "block";
+
+					// Automatically open next step only
+					steps.forEach(s => s.classList.remove("active"));
+					steps[1].classList.add("active");
+				};
+
+				reader.readAsDataURL(file);
+			}
+		});
+
+		// Handle Style Image Upload
+		styleImageUpload.addEventListener("click", () => {
+			styleImageInput.click();
+		});
+
+		styleImageInput.addEventListener("change", function () {
+			if (this.files && this.files[0]) {
+				const file = this.files[0];
+				const reader = new FileReader();
+
+				reader.onload = function (e) {
+					const img = styleImagePreview.querySelector("img");
+					img.src = e.target.result;
+					styleImagePreview.style.display = "block";
+
+					// Deselect any style options
+					styleOptions.forEach(option => {
+						option.classList.remove("selected");
+					});
+
+					// Automatically open next step only
+					steps.forEach(s => s.classList.remove("active"));
+					steps[2].classList.add("active");
+				};
+
+				reader.readAsDataURL(file);
+			}
+		});
+
+		// Handle Style Option Selection
+		styleOptions.forEach(option => {
+			option.addEventListener("click", () => {
+				// Toggle selection
+				styleOptions.forEach(opt => {
+					opt.classList.remove("selected");
+				});
+				option.classList.add("selected");
+
+				// Clear any uploaded style image
+				styleImagePreview.style.display = "none";
+				styleImageInput.value = "";
+
+				// Automatically open next step only
+				steps.forEach(s => s.classList.remove("active"));
+				steps[2].classList.add("active");
+			});
+		});
+
+		// Handle Tag Button Selection
+		tagButtons.forEach(button => {
+			button.addEventListener("click", () => {
+				button.classList.toggle("active");
+			});
+		});
+
+		// Dream Button Click Handler
+		dreamBtn.addEventListener("click", () => {
+			// Check if main image is uploaded
+			if (mainImagePreview.style.display === "none") {
+				alert("Please upload an image first");
+				return;
+			}
+
+			// Check if style is selected
+			const styleSelected = document.querySelector(".style-option.selected") ||
+				styleImagePreview.style.display !== "none";
+
+			if (!styleSelected) {
+				alert("Please select or upload a style image");
+				return;
+			}
+
+			// Show loading
+			loadingContainer.style.display = "block";
+
+			// Hide steps and action buttons
+			steps.forEach(step => {
+				step.style.display = "none";
+			});
+			clearBtn.parentElement.parentElement.style.display = "none";
+
+			// Simulate API call
+			setTimeout(() => {
+				loadingContainer.style.display = "none";
+				resultsContainer.style.display = "block";
+
+				// Generate mock images
+				generatedImagesContainer.innerHTML = "";
+				for (let i = 0; i < 4; i++) {
+					// Random cat images as placeholders
+					const randomId = Math.floor(Math.random() * 1000);
+					const imgHtml = `
+						<div class="generated-image">
+							<img src="https://placekitten.com/400/400?image=${randomId}" alt="Generated design ${i + 1}">
+						</div>
+					`;
+					generatedImagesContainer.innerHTML += imgHtml;
+				}
+
+				// Add click handlers to generated images
+				document.querySelectorAll(".generated-image").forEach(imgDiv => {
+					imgDiv.addEventListener("click", () => {
+						document.querySelectorAll(".generated-image").forEach(div => {
+							div.classList.remove("selected");
+						});
+						imgDiv.classList.add("selected");
+					});
+				});
+			}, 3000); // Simulate 3 second processing time
+		});
+
+		// Regenerate Button Click Handler
+		regenerateBtn.addEventListener("click", () => {
+			// Simulate API call for regeneration
+			resultsContainer.style.display = "none";
+			loadingContainer.style.display = "block";
+
+			setTimeout(() => {
+				loadingContainer.style.display = "none";
+				resultsContainer.style.display = "block";
+
+				// Generate new mock images
+				generatedImagesContainer.innerHTML = "";
+				for (let i = 0; i < 4; i++) {
+					const randomId = Math.floor(Math.random() * 1000);
+					const imgHtml = `
+						<div class="generated-image">
+							<img src="https://placekitten.com/400/400?image=${randomId}" alt="Generated design ${i + 1}">
+						</div>
+					`;
+					generatedImagesContainer.innerHTML += imgHtml;
+				}
+
+				// Add click handlers to generated images
+				document.querySelectorAll(".generated-image").forEach(imgDiv => {
+					imgDiv.addEventListener("click", () => {
+						document.querySelectorAll(".generated-image").forEach(div => {
+							div.classList.remove("selected");
+						});
+						imgDiv.classList.add("selected");
+					});
+				});
+			}, 3000);
+		});
+
+		// Select Button Click Handler
+		selectBtn.addEventListener("click", () => {
+			const selectedImage = document.querySelector(".generated-image.selected");
+			if (!selectedImage) {
+				alert("Please select an image first");
+				return;
+			}
+
+			alert("Selected image would now be passed to checkout!");
+			// In the real implementation, this would add the image to cart or trigger checkout
+		});
+
+		// Clear Button Click Handler
+		clearBtn.addEventListener("click", () => {
+			// Reset form
+			mainImagePreview.style.display = "none";
+			mainImageInput.value = "";
+			styleImagePreview.style.display = "none";
+			styleImageInput.value = "";
+			document.querySelector("textarea").value = "";
+
+			styleOptions.forEach(option => {
+				option.classList.remove("selected");
+			});
+
+			tagButtons.forEach(button => {
+				button.classList.remove("active");
+			});
+
+			// Reset UI
+			resultsContainer.style.display = "none";
+			loadingContainer.style.display = "none";
+
+			steps.forEach(step => {
+				step.style.display = "block";
+				step.classList.remove("active");
+			});
+			steps[0].classList.add("active");
+
+			// Make sure the action buttons div is visible 
+			clearBtn.parentElement.parentElement.style.display = "block";
+
+			// Close modal
+			expandedUI.classList.remove("visible");
+			blurOverlay.classList.remove("visible");
+		});
+
+		// Close modal when clicking outside
+		document.addEventListener("click", function (event) {
+			if (expandedUI.classList.contains("visible")) {
+				// Even if clicked on floating bar, keep expanded UI open
+				let isClickInsideModal = expandedUI.contains(event.target) || floatingBar.contains(event.target);
+
+				if (!isClickInsideModal) {
+					expandedUI.classList.remove("visible");
+					blurOverlay.classList.remove("visible");
+				}
+			}
+		});
+	</script>
+
+</body>
+
+</html>

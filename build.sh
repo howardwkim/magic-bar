@@ -11,15 +11,13 @@ fi
 
 # 2. Install dependencies if needed
 if [ "$1" == "--prod" ]; then
-  echo "📚 Installing dependencies..."
-  # Use npm ci for CI/CD environments (GitHub Actions), npm install for local development
-  if [ "$CI" == "true" ]; then
-    echo "🤖 Detected CI environment, using npm ci..."
-    npm ci
-  else
-    echo "💻 Local environment detected, using npm install..."
-    npm install
-  fi
+  echo "📚 Installing dependencies for production..."
+  echo "🤖 Using npm ci for CI environment..."
+  npm ci
+else
+  echo "📚 Installing dependencies for local development..."
+  echo "💻 Using npm install..."
+  npm install
 fi
 
 # 3. Run the build process

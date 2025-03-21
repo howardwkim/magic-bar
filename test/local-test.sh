@@ -102,7 +102,7 @@ EOL
 
 # Step 4: Start the server
 echo "🚀 Starting server on port $PORT..."
-npx serve dist --listen $PORT &
+npx http-server dist -p $PORT --cors -c-1 &
 SERVER_PID=$!
 
 # Wait a moment for the server to start

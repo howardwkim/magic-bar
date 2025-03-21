@@ -1,4 +1,5 @@
 import { JSX } from 'preact';
+import { PhotoUpload } from './PhotoUpload';
 
 interface StyleOption {
   id: string;
@@ -61,36 +62,13 @@ export function StyleSelectionStep({
           </div>
 
           <p className='mb-2'>Or upload your own style image:</p>
-          <input
-            type='file'
-            id='style-image-input'
-            className='hidden'
-            accept='image/*'
-            onChange={onStyleImageUpload}
+          <PhotoUpload
+            label='Upload style image'
+            description='Use an image with a style you'd like to apply'
+            inputId='style-image-input'
+            onImageUpload={onStyleImageUpload}
+            uploadedImage={styleImage}
           />
-
-          {!styleImage ? (
-            <div
-              className='border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer'
-              onClick={() =>
-                document.getElementById('style-image-input')?.click()
-              }
-            >
-              <div className='text-2xl mb-2'>+</div>
-              <div>Upload style image</div>
-              <div className='text-xs text-gray-500'>
-                Use an image with a style you'd like to apply
-              </div>
-            </div>
-          ) : (
-            <div className='mt-4'>
-              <img
-                src={styleImage}
-                alt='Style Image'
-                className='max-w-full rounded-lg'
-              />
-            </div>
-          )}
         </div>
       )}
     </div>

@@ -1,4 +1,5 @@
 import { JSX } from 'preact';
+import { PhotoUpload } from './PhotoUpload';
 
 interface ImageUploadStepProps {
   title: string;
@@ -43,32 +44,13 @@ export function ImageUploadStep({
 
       {isActive && (
         <div className='p-4'>
-          <input
-            type='file'
-            id={inputId}
-            className='hidden'
-            accept='image/*'
-            onChange={onImageUpload}
+          <PhotoUpload
+            label={uploadLabel}
+            description={uploadDescription}
+            inputId={inputId}
+            onImageUpload={onImageUpload}
+            uploadedImage={uploadedImage}
           />
-
-          {!uploadedImage ? (
-            <div
-              className='border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer'
-              onClick={() => document.getElementById(inputId)?.click()}
-            >
-              <div className='text-2xl mb-2'>+</div>
-              <div>{uploadLabel}</div>
-              <div className='text-xs text-gray-500'>{uploadDescription}</div>
-            </div>
-          ) : (
-            <div className='mt-4'>
-              <img
-                src={uploadedImage}
-                alt='Uploaded Image'
-                className='max-w-full rounded-lg'
-              />
-            </div>
-          )}
         </div>
       )}
     </div>

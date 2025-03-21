@@ -26,7 +26,6 @@ npm run build
 
 # 4. Copy the bootloader files
 echo "🚀 Copying bootloader files..."
-cp src/bootloader/bootloader.js dist/
 cp src/bootloader/bootloader.min.js dist/
 
 # 5. Create a deployment package

@@ -22,10 +22,42 @@ export function App() {
   >(null);
 
   const styleOptions = [
-    { id: 'style1', imageUrl: 'https://picsum.photos/id/237/200' },
-    { id: 'style2', imageUrl: 'https://picsum.photos/id/238/200' },
-    { id: 'style3', imageUrl: 'https://picsum.photos/id/239/200' },
-    { id: 'style4', imageUrl: 'https://picsum.photos/id/240/200' },
+    {
+      id: 'impressionism',
+      imageUrl:
+        'https://images.unsplash.com/photo-1577083552431-6e5c0198d8b3?w=400&h=400&fit=crop',
+      label: 'Impressionism',
+    },
+    {
+      id: 'pop-art',
+      imageUrl:
+        'https://images.unsplash.com/photo-1577083552431-6e5c0198d8b3?w=400&h=400&fit=crop',
+      label: 'Pop Art',
+    },
+    {
+      id: 'minimalism',
+      imageUrl:
+        'https://images.unsplash.com/photo-1577083552431-6e5c0198d8b3?w=400&h=400&fit=crop',
+      label: 'Minimalism',
+    },
+    {
+      id: 'art-deco',
+      imageUrl:
+        'https://images.unsplash.com/photo-1577083552431-6e5c0198d8b3?w=400&h=400&fit=crop',
+      label: 'Art Deco',
+    },
+    {
+      id: 'watercolor',
+      imageUrl:
+        'https://images.unsplash.com/photo-1577083552431-6e5c0198d8b3?w=400&h=400&fit=crop',
+      label: 'Watercolor',
+    },
+    {
+      id: 'abstract',
+      imageUrl:
+        'https://images.unsplash.com/photo-1577083552431-6e5c0198d8b3?w=400&h=400&fit=crop',
+      label: 'Abstract',
+    },
   ];
 
   const availableTags = ['Dainty', 'Minimalist', 'Bold', 'Vintage'];

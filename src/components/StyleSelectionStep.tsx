@@ -4,6 +4,7 @@ import { PhotoUpload } from './PhotoUpload';
 interface StyleOption {
   id: string;
   imageUrl: string;
+  label: string;
 }
 
 interface StyleSelectionStepProps {
@@ -51,19 +52,23 @@ export function StyleSelectionStep({
             <h3 className='text-sm font-medium text-gray-900 mb-3'>
               Preset Styles
             </h3>
-            <div className='flex gap-3 overflow-x-auto pb-2'>
+            <div className='grid grid-cols-3 gap-4'>
               {/* Predefined styles */}
               {styleOptions.map((style) => (
-                <div
-                  key={style.id}
-                  className={`flex-shrink-0 w-24 h-24 rounded-lg bg-cover bg-center cursor-pointer border-2 ${
-                    selectedStyle === style.id
-                      ? 'border-blue-500'
-                      : 'border-gray-200'
-                  }`}
-                  style={{ backgroundImage: `url(${style.imageUrl})` }}
-                  onClick={() => onStyleSelect(style.id)}
-                ></div>
+                <div key={style.id} className='flex flex-col items-center'>
+                  <div
+                    className={`w-full aspect-square rounded-lg bg-cover bg-center cursor-pointer border-2 mb-2 ${
+                      selectedStyle === style.id
+                        ? 'border-blue-500'
+                        : 'border-gray-200'
+                    }`}
+                    style={{ backgroundImage: `url(${style.imageUrl})` }}
+                    onClick={() => onStyleSelect(style.id)}
+                  ></div>
+                  <span className='text-xs text-gray-600 text-center'>
+                    {style.label}
+                  </span>
+                </div>
               ))}
             </div>
           </div>

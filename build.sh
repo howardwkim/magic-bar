@@ -10,7 +10,7 @@ if [ -d "dist" ]; then
 fi
 
 # 2. Install dependencies if needed
-if [ "$1" == "--install" ]; then
+if [ "$1" == "--prod" ]; then
   echo "📚 Installing dependencies..."
   # Use npm ci for CI/CD environments (GitHub Actions), npm install for local development
   if [ "$CI" == "true" ]; then
@@ -31,7 +31,7 @@ echo "🚀 Copying bootloader files..."
 cp src/bootloader/bootloader.js dist/
 cp src/bootloader/bootloader.min.js dist/
 
-# 7. Create a deployment package
+# 5. Create a deployment package
 echo "📦 Creating deployment package..."
 mkdir -p dist/deploy
 
@@ -41,7 +41,7 @@ cp dist/magic-bar.css dist/deploy/
 cp src/bootloader/bootloader.min.js dist/deploy/
 cp shopify-integration.md dist/deploy/
 
-# 8. Create a zip archive for easy deployment
+# 6. Create a zip archive for easy deployment
 echo "🗜️ Creating zip archive..."
 cd dist && zip -r magic-bar-deploy.zip deploy/
 

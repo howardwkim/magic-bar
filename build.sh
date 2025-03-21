@@ -34,10 +34,9 @@ echo "📦 Creating deployment package..."
 mkdir -p dist/deploy
 
 # Copy the necessary files to the deployment directory
-cp dist/magic-bar.umd.js dist/deploy/
+cp dist/magic-bar.js dist/deploy/
 cp dist/magic-bar.css dist/deploy/
 cp src/bootloader/bootloader.min.js dist/deploy/
-cp shopify-integration.md dist/deploy/
 
 # 6. Create a zip archive for easy deployment
 echo "🗜️ Creating zip archive..."
@@ -45,4 +44,3 @@ cd dist && zip -r magic-bar-deploy.zip deploy/
 
 echo "✅ Build completed successfully!"
 echo "📁 Deployment package is available at: dist/magic-bar-deploy.zip"
-echo "📝 Integration instructions are in: dist/deploy/shopify-integration.md" 

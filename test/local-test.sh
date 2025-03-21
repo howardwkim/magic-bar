@@ -47,7 +47,7 @@ fi
 
 # Step 3: Create a test HTML file with the correct port
 echo "📝 Creating test HTML file..."
-cat > local-test.html << EOL
+cat > test/local-test.tmp.html << EOL
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -120,15 +120,15 @@ echo "✅ Server running at http://localhost:$PORT"
 echo "🌐 Opening test page in browser..."
 if [[ "$OSTYPE" == "darwin"* ]]; then
   # macOS
-  open local-test.html
+  open test/local-test.tmp.html
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
   # Linux
-  xdg-open local-test.html
+  xdg-open test/local-test.tmp.html
 elif [[ "$OSTYPE" == "msys" || "$OSTYPE" == "win32" ]]; then
   # Windows
-  start local-test.html
+  start test/local-test.tmp.html
 else
-  echo "⚠️ Could not automatically open browser. Please open local-test.html manually."
+  echo "⚠️ Could not automatically open browser. Please open test/local-test.tmp.html manually."
 fi
 
 echo "✅ Done! Magic Bar should be loaded in your browser."

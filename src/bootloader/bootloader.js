@@ -4,8 +4,8 @@
   const config = {
     appName: 'MagicBar',
     version: '1.0.0',
-    cssUrl: './dist/magic-bar.css',
-    jsUrl: './dist/magic-bar.js',
+    // The baseUrl will be replaced during build
+    baseUrl: '__MAGIC_BAR_BASE_URL__',
     containerId: 'magic-bar-container',
   };
 
@@ -23,16 +23,8 @@
       const link = document.createElement('link');
       link.rel = 'stylesheet';
       link.href = url;
-
-      link.onload = () => {
-        console.log('CSS loaded successfully:', url);
-        resolve();
-      };
-      link.onerror = (e) => {
-        console.error('Failed to load CSS:', url, e);
-        reject(new Error(`Failed to load CSS: ${url}`));
-      };
-
+      link.onload = () => resolve();
+      link.onerror = () => reject(new Error(`Failed to load CSS: ${url}`));
       document.head.appendChild(link);
     });
   }
@@ -43,16 +35,9 @@
       const script = document.createElement('script');
       script.type = 'text/javascript';
       script.src = url;
-
-      script.onload = () => {
-        console.log('JavaScript loaded successfully:', url);
-        resolve();
-      };
-      script.onerror = (e) => {
-        console.error('Failed to load JavaScript:', url, e);
+      script.onload = () => resolve();
+      script.onerror = () =>
         reject(new Error(`Failed to load JavaScript: ${url}`));
-      };
-
       document.body.appendChild(script);
     });
   }
@@ -66,12 +51,14 @@
       const container = createContainer();
 
       // Load CSS first
-      console.log('Loading CSS from:', config.cssUrl);
-      await loadCSS(config.cssUrl);
+      const cssUrl = `${config.baseUrl}/magic-bar.css`;
+      console.log('Loading CSS from:', cssUrl);
+      await loadCSS(cssUrl);
 
       // Then load JavaScript
-      console.log('Loading JS from:', config.jsUrl);
-      await loadJS(config.jsUrl);
+      const jsUrl = `${config.baseUrl}/magic-bar.js`;
+      console.log('Loading JS from:', jsUrl);
+      await loadJS(jsUrl);
 
       // Initialize the app
       console.log('Checking for MagicBar object...');

@@ -214,6 +214,7 @@ export function App() {
               uploadLabel='Upload your image'
               uploadDescription='Select a high-quality image to transform'
               inputId='main-image-input'
+              onClear={() => setMainImage(null)}
             />
 
             {/* Step 2: Style Selection */}
@@ -225,6 +226,10 @@ export function App() {
               onStyleImageUpload={handleStyleImageUpload}
               onStyleSelect={selectStyleOption}
               styleOptions={styleOptions}
+              onClear={() => {
+                setStyleImage(null);
+                setSelectedStyle(null);
+              }}
             />
 
             {/* Step 3: Prompt Input */}

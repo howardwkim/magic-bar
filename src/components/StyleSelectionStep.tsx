@@ -14,6 +14,7 @@ interface StyleSelectionStepProps {
   onStyleImageUpload: JSX.GenericEventHandler<HTMLInputElement>;
   onStyleSelect: (style: string) => void;
   styleOptions: StyleOption[];
+  onClear?: () => void;
 }
 
 export function StyleSelectionStep({
@@ -24,6 +25,7 @@ export function StyleSelectionStep({
   onStyleImageUpload,
   onStyleSelect,
   styleOptions,
+  onClear,
 }: StyleSelectionStepProps) {
   return (
     <div className='border-b border-gray-200 overflow-hidden'>
@@ -64,10 +66,11 @@ export function StyleSelectionStep({
           <p className='mb-2'>Or upload your own style image:</p>
           <PhotoUpload
             label='Upload style image'
-            description='Use an image with a style you'd like to apply'
+            description="Use an image with a style you'd like to apply"
             inputId='style-image-input'
             onImageUpload={onStyleImageUpload}
             uploadedImage={styleImage}
+            onClear={onClear}
           />
         </div>
       )}

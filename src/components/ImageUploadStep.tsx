@@ -11,6 +11,7 @@ interface ImageUploadStepProps {
   uploadLabel: string;
   uploadDescription: string;
   inputId: string;
+  onClear?: () => void;
 }
 
 export function ImageUploadStep({
@@ -23,6 +24,7 @@ export function ImageUploadStep({
   uploadLabel,
   uploadDescription,
   inputId,
+  onClear,
 }: ImageUploadStepProps) {
   return (
     <div className='border-b border-gray-200 overflow-hidden'>
@@ -50,6 +52,7 @@ export function ImageUploadStep({
             inputId={inputId}
             onImageUpload={onImageUpload}
             uploadedImage={uploadedImage}
+            onClear={onClear}
           />
         </div>
       )}

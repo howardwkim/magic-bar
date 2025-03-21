@@ -51,13 +51,42 @@ if [ -f "src/bootloader/bootloader.js" ]; then
   fi
 else
   echo "❌ Error: src/bootloader/bootloader.js not found!"
+  echo "   Looking for fallback bootloader.min.js..."
+  
+  if [ -f "src/bootloader/bootloader.min.js" ]; then
+    echo "✅ Found fallback. Copying and applying base URL..."
+    # Create a temporary file with the correct base URL
+    TEMP_FILE=$(mktemp)
+    sed "s|https://your-deployment-server.com|$MAGIC_BAR_BASE_URL|g" src/bootloader/bootloader.min.js > "$TEMP_FILE"
+    cp "$TEMP_FILE" dist/bootloader.min.js
+    rm "$TEMP_FILE"
+  else
+    echo "❌ No bootloader found. Cannot generate bootloader.min.js!"
+    exit 1
+  fi
+fi
+
+# 5. Verify files exist
+echo "🔍 Verifying built files..."
+if [ ! -f "dist/bootloader.min.js" ]; then
+  echo "❌ Error: bootloader.min.js not found in dist directory!"
+  exit 1
+else
+  echo "✅ bootloader.min.js found"
+fi
+
+if [ ! -f "dist/magic-bar.css" ]; then
+  echo "⚠️ Warning: magic-bar.css not found in dist directory."
+  echo "   Creating an empty CSS file to prevent bootloader errors"
+  touch dist/magic-bar.css
+fi
+
+if [ ! -f "dist/magic-bar.js" ]; then
+  echo "⚠️ Warning: magic-bar.js not found in dist directory."
   exit 1
 fi
 
-
-# # 6. Create a zip archive for easy deployment
-# echo "🗜️ Creating zip archive..."
-# cd dist && zip -r magic-bar-deploy.zip deploy/
-
 echo "✅ Build completed successfully!"
-# echo "📁 Deployment package is available at: dist/magic-bar-deploy.zip"
+echo "📄 Bootloader is available at: dist/bootloader.min.js"
+echo "🌐 Using base URL: $MAGIC_BAR_BASE_URL"
+ls -la dist

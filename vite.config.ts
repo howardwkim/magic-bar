@@ -10,28 +10,14 @@ export default defineConfig({
 
     // Library build settings
     lib: {
-      entry: 'src/index.js',
+      entry: 'src/index.tsx',
       name: 'MagicBar',
-      fileName: (format) => `magic-bar.${format}.js`,
-      formats: ['es', 'umd'],
+      fileName: () => 'magic-bar.js',
+      formats: ['umd'],
     },
 
-    // Bundle optimization
-    rollupOptions: {
-      // External dependencies (if any)
-      external: [],
-      output: {
-        // Global variable name when loaded via <script> tag
-        globals: {},
-        // Ensure clean CSS output
-        assetFileNames: (assetInfo) => {
-          if (assetInfo.name.endsWith('.css')) {
-            return 'magic-bar.css';
-          }
-          return assetInfo.name;
-        },
-      },
-    },
+    // Simple CSS output - this generates a predictable CSS filename
+    cssCodeSplit: false,
 
     // Ensure sourcemaps for debugging
     sourcemap: true,

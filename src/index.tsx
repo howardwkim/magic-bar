@@ -3,13 +3,22 @@ import { render } from 'preact';
 import { App } from './app.tsx';
 import './index.css';
 
+// Define the global interface
+declare global {
+  interface Window {
+    MagicBar: {
+      init: (container: HTMLElement) => void;
+    };
+  }
+}
+
 // Create a global namespace for the application
 window.MagicBar = {
   /**
    * Initialize the Magic Bar application
    * @param {HTMLElement} container - The DOM element to render the app into
    */
-  init: function (container) {
+  init: function (container: HTMLElement) {
     // If no container provided, create one
     if (!container) {
       container = document.createElement('div');
@@ -25,7 +34,7 @@ window.MagicBar = {
 };
 
 // Auto-initialize if this script is loaded directly (for development)
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.DEV) {
   document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('app') || document.body;
     window.MagicBar.init(container);

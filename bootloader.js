@@ -4,8 +4,8 @@
   const config = {
     appName: 'MagicBar',
     version: '1.0.0',
-    cssUrl: 'https://yourdomain.com/magic-bar/styles.css',
-    jsUrl: 'https://yourdomain.com/magic-bar/bundle.js',
+    cssUrl: './dist/magic-bar.css',
+    jsUrl: './dist/magic-bar.js',
     containerId: 'magic-bar-container',
   };
 
@@ -24,8 +24,14 @@
       link.rel = 'stylesheet';
       link.href = url;
 
-      link.onload = () => resolve();
-      link.onerror = () => reject(new Error(`Failed to load CSS: ${url}`));
+      link.onload = () => {
+        console.log('CSS loaded successfully:', url);
+        resolve();
+      };
+      link.onerror = (e) => {
+        console.error('Failed to load CSS:', url, e);
+        reject(new Error(`Failed to load CSS: ${url}`));
+      };
 
       document.head.appendChild(link);
     });
@@ -38,9 +44,14 @@
       script.type = 'text/javascript';
       script.src = url;
 
-      script.onload = () => resolve();
-      script.onerror = () =>
+      script.onload = () => {
+        console.log('JavaScript loaded successfully:', url);
+        resolve();
+      };
+      script.onerror = (e) => {
+        console.error('Failed to load JavaScript:', url, e);
         reject(new Error(`Failed to load JavaScript: ${url}`));
+      };
 
       document.body.appendChild(script);
     });
@@ -49,21 +60,28 @@
   // Initialize the app
   async function init() {
     try {
+      console.log('Initializing Magic Bar...');
+
       // Create container
       const container = createContainer();
 
       // Load CSS first
+      console.log('Loading CSS from:', config.cssUrl);
       await loadCSS(config.cssUrl);
 
       // Then load JavaScript
+      console.log('Loading JS from:', config.jsUrl);
       await loadJS(config.jsUrl);
 
       // Initialize the app
+      console.log('Checking for MagicBar object...');
       if (
         window[config.appName] &&
         typeof window[config.appName].init === 'function'
       ) {
+        console.log('Initializing MagicBar app...');
         window[config.appName].init(container);
+        console.log('MagicBar initialized successfully!');
       } else {
         console.error(
           `${config.appName} application not found or init method not available`,

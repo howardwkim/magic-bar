@@ -107,7 +107,7 @@ export function App() {
       const mockImages = Array(4)
         .fill(0)
         .map(
-          (_, i) =>
+          (_) =>
             `https://placekitten.com/400/400?image=${Math.floor(
               Math.random() * 1000,
             )}`,
@@ -128,7 +128,7 @@ export function App() {
       const mockImages = Array(4)
         .fill(0)
         .map(
-          (_, i) =>
+          (_) =>
             `https://placekitten.com/400/400?image=${Math.floor(
               Math.random() * 1000,
             )}`,

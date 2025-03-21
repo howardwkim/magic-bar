@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Magic Bar Direct Test</title>
+	<!-- Direct inclusion of CSS -->
+	<link rel="stylesheet" href="dist/magic-bar.css">
+</head>
+
+<body>
+	<h1>Magic Bar Direct Test</h1>
+
+	<div id="magic-bar-container"></div>
+
+	<!-- Direct inclusion of JavaScript -->
+	<script src="dist/magic-bar.js"></script>
+
+	<!-- Initialization script -->
+	<script>
+		// Initialize MagicBar after it's loaded
+		document.addEventListener('DOMContentLoaded', function () {
+			if (window.MagicBar && typeof window.MagicBar.init === 'function') {
+				const container = document.getElementById('magic-bar-container');
+				window.MagicBar.init(container);
+				console.log('MagicBar initialized via direct inclusion!');
+			} else {
+				console.error('MagicBar not found or init method not available.');
+			}
+		});
+	</script>
+
+	<div style="margin-top: 30px; padding: 10px; background: #eee;">
+		<p>Check the browser console (F12) for debugging information.</p>
+	</div>
+</body>
+
+</html>

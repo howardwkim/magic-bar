@@ -270,6 +270,10 @@ export function App() {
               activeTags={activeTags}
               onTagToggle={toggleTag}
               availableTags={availableTags}
+              mainImage={mainImage}
+              styleImage={styleImage}
+              selectedStyle={selectedStyle}
+              styleOptions={styleOptions}
             />
 
             {/* Action Buttons */}

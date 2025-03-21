@@ -161,7 +161,7 @@ export function App() {
   const handleOutsideClick = (e: MouseEvent) => {
     // Only close if clicking the background overlay
     const target = e.target as HTMLElement;
-    const overlay = document.querySelector('.bg-amber-50');
+    const overlay = document.getElementById('modal-overlay');
 
     if (isExpanded && overlay && target === overlay) {
       setIsExpanded(false);
@@ -183,6 +183,7 @@ export function App() {
 
       {/* Background Blur */}
       <div
+        id='modal-overlay'
         className={`fixed inset-0 bg-amber-50 g-opacity-40 z-40 ${
           isExpanded ? 'block' : 'hidden'
         }`}

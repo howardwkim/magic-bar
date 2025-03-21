@@ -46,7 +46,6 @@ export function App() {
       reader.onload = (e) => {
         const result = e.target?.result as string;
         setMainImage(result);
-        setActiveStep(1);
       };
       reader.readAsDataURL(file);
     }
@@ -61,7 +60,6 @@ export function App() {
         const result = e.target?.result as string;
         setStyleImage(result);
         setSelectedStyle(null); // Clear any selected predefined style
-        setActiveStep(2);
       };
       reader.readAsDataURL(file);
     }
@@ -70,7 +68,6 @@ export function App() {
   const selectStyleOption = (style: string) => {
     setSelectedStyle(style);
     setStyleImage(null); // Clear any uploaded style image
-    setActiveStep(2);
   };
 
   const toggleTag = (tag: string) => {
@@ -242,7 +239,11 @@ export function App() {
             />
 
             {/* Action Buttons */}
-            <ActionButtons onClear={handleClear} onDream={handleDream} />
+            <ActionButtons
+              onClear={handleClear}
+              onDream={handleDream}
+              disabled={!mainImage || (!styleImage && !selectedStyle)}
+            />
           </>
         )}
 

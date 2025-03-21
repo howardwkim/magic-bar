@@ -30,9 +30,12 @@ export function StyleSelectionStep({
         className='flex justify-between items-center p-4 cursor-pointer bg-white'
         onClick={onToggle}
       >
-        <div>
+        <div className='flex items-start'>
           <span className='font-bold mr-2'>2</span>
           <span>Select a style</span>
+          <span className='text-red-500 text-sm leading-none align-super'>
+            •
+          </span>
         </div>
         <div className={`transition-transform ${isActive ? 'rotate-180' : ''}`}>
           ▼

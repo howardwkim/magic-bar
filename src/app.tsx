@@ -159,17 +159,12 @@ export function App() {
   };
 
   const handleOutsideClick = (e: MouseEvent) => {
-    // Only close if clicking outside floating bar and expanded UI
+    // Only close if clicking the background overlay
     const target = e.target as HTMLElement;
-    const floatingBar = document.getElementById('floating-bar');
-    const expandedUI = document.getElementById('expanded-ui');
+    const overlay = document.querySelector('.bg-amber-50');
 
-    if (isExpanded && floatingBar && expandedUI) {
-      const isClickInsideModal =
-        expandedUI.contains(target) || floatingBar.contains(target);
-      if (!isClickInsideModal) {
-        setIsExpanded(false);
-      }
+    if (isExpanded && overlay && target === overlay) {
+      setIsExpanded(false);
     }
   };
 
@@ -191,6 +186,7 @@ export function App() {
         className={`fixed inset-0 bg-amber-50 g-opacity-40 z-40 ${
           isExpanded ? 'block' : 'hidden'
         }`}
+        onClick={handleOutsideClick}
       ></div>
 
       {/* Expanded UI */}

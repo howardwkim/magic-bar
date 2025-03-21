@@ -46,7 +46,10 @@ export function PhotoUpload({
             />
           </div>
           <button
-            onClick={onClear}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClear?.();
+            }}
             className='p-2 text-gray-500 hover:text-red-500 transition-colors'
             aria-label='Remove image'
           >

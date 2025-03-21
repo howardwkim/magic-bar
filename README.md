@@ -3,7 +3,41 @@
 ## Overview
 This guide will help you integrate the Magic Bar into your Shopify store. The Magic Bar adds a floating search and navigation bar to your site.
 
-## Installation Steps
+## Development Instructions
+
+### Environment Variables
+
+The build process requires the following environment variable:
+
+- `MAGIC_BAR_BASE_URL`: The base URL where your Magic Bar assets (CSS and JS) will be hosted.
+
+Example:
+```bash
+# For local development
+export MAGIC_BAR_BASE_URL="http://localhost:3000"
+
+# For production
+export MAGIC_BAR_BASE_URL="https://your-cdn-or-server.com/magic-bar"
+```
+
+### Building the Project
+
+To build the project for development:
+```bash
+npm run build:local
+```
+
+To build for production:
+```bash
+npm run build:prod
+```
+
+The build process will generate the following files in the `dist` directory:
+- `bootloader.min.js`: The main script to include in your Shopify theme
+- `magic-bar.js`: The main application code
+- `magic-bar.css`: The styles for the Magic Bar
+
+## Installation Steps for Shopify
 
 ### 1. Log in to your Shopify Admin Panel
 

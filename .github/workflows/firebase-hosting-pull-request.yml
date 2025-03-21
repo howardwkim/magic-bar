@@ -13,7 +13,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npm run build:prod
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      - name: Build production bundle
+        env:
+          MAGIC_BAR_BASE_URL: ${{ secrets.MAGIC_BAR_BASE_URL || 'https://mementum-test-pr.web.app' }}
+        run: npm run build:prod
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}

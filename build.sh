@@ -10,8 +10,13 @@ if [ -d "dist" ]; then
 fi
 
 # 2. Install dependencies if needed
-if [ "$1" == "--install" ]; then
-  echo "📚 Installing dependencies..."
+if [ "$1" == "--prod" ]; then
+  echo "📚 Installing dependencies for production..."
+  echo "🤖 Using npm ci for CI environment..."
+  npm ci
+else
+  echo "📚 Installing dependencies for local development..."
+  echo "💻 Using npm install..."
   npm install
 fi
 
@@ -21,23 +26,12 @@ npm run build
 
 # 4. Copy the bootloader files
 echo "🚀 Copying bootloader files..."
-cp bootloader.js dist/
-cp bootloader.min.js dist/
+cp src/bootloader/bootloader.min.js dist/
 
-# 5. Create a deployment package
-echo "📦 Creating deployment package..."
-mkdir -p dist/deploy
 
-# Copy the necessary files to the deployment directory
-cp dist/magic-bar.umd.js dist/deploy/
-cp dist/magic-bar.css dist/deploy/
-cp bootloader.min.js dist/deploy/
-cp shopify-integration.md dist/deploy/
-
-# 6. Create a zip archive for easy deployment
-echo "🗜️ Creating zip archive..."
-cd dist && zip -r magic-bar-deploy.zip deploy/
+# # 6. Create a zip archive for easy deployment
+# echo "🗜️ Creating zip archive..."
+# cd dist && zip -r magic-bar-deploy.zip deploy/
 
 echo "✅ Build completed successfully!"
-echo "📁 Deployment package is available at: dist/magic-bar-deploy.zip"
-echo "📝 Integration instructions are in: dist/deploy/shopify-integration.md" 
+# echo "📁 Deployment package is available at: dist/magic-bar-deploy.zip"

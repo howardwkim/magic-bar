@@ -32,6 +32,7 @@ export function ImageUploadStep({
         <div>
           <span className='font-bold mr-2'>{stepNumber}</span>
           <span>{title}</span>
+          {/* <span className='text-xs text-gray-500 ml-1'>(Required)</span> */}
         </div>
         <div className={`transition-transform ${isActive ? 'rotate-180' : ''}`}>
           ▼

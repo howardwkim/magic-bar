@@ -17,7 +17,7 @@ export function ActionButtons({ onClear, onDream }: ActionButtonsProps) {
           className='flex-1 bg-black text-white rounded-lg py-3 flex items-center justify-center text-sm font-medium'
           onClick={onDream}
         >
-          <span className='mr-1'>✨</span> Dream
+          <span className='mr-1'>✨</span> Create
         </button>
       </div>
     </div>

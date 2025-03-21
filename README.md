@@ -37,6 +37,23 @@ The build process will generate the following files in the `dist` directory:
 - `magic-bar.js`: The main application code
 - `magic-bar.css`: The styles for the Magic Bar
 
+### Testing Locally
+
+We've included a convenient script to test the Magic Bar locally:
+
+```bash
+./local-test.sh
+```
+
+This script will:
+1. Find an available port on your system
+2. Build the Magic Bar with the correct local URL
+3. Start a local server to serve the dist directory
+4. Open a test HTML page in your browser
+5. Clean up when you're done (just press Ctrl+C)
+
+The test page allows you to see how the Magic Bar will appear when integrated into a Shopify store.
+
 ## Installation Steps for Shopify
 
 ### 1. Log in to your Shopify Admin Panel

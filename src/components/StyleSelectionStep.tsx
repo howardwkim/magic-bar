@@ -47,31 +47,40 @@ export function StyleSelectionStep({
 
       {isActive && (
         <div className='p-4'>
-          <div className='grid grid-cols-2 gap-3 mb-4'>
-            {/* Predefined styles */}
-            {styleOptions.map((style) => (
-              <div
-                key={style.id}
-                className={`rounded-lg aspect-square bg-cover bg-center cursor-pointer border ${
-                  selectedStyle === style.id
-                    ? 'border-2 border-blue-500'
-                    : 'border-gray-200'
-                }`}
-                style={{ backgroundImage: `url(${style.imageUrl})` }}
-                onClick={() => onStyleSelect(style.id)}
-              ></div>
-            ))}
+          <div className='mb-6'>
+            <h3 className='text-sm font-medium text-gray-900 mb-3'>
+              Preset Styles
+            </h3>
+            <div className='flex gap-3 overflow-x-auto pb-2'>
+              {/* Predefined styles */}
+              {styleOptions.map((style) => (
+                <div
+                  key={style.id}
+                  className={`flex-shrink-0 w-24 h-24 rounded-lg bg-cover bg-center cursor-pointer border-2 ${
+                    selectedStyle === style.id
+                      ? 'border-blue-500'
+                      : 'border-gray-200'
+                  }`}
+                  style={{ backgroundImage: `url(${style.imageUrl})` }}
+                  onClick={() => onStyleSelect(style.id)}
+                ></div>
+              ))}
+            </div>
           </div>
 
-          <p className='mb-2'>Or upload your own style image:</p>
-          <PhotoUpload
-            label='Upload style image'
-            description="Use an image with a style you'd like to apply"
-            inputId='style-image-input'
-            onImageUpload={onStyleImageUpload}
-            uploadedImage={styleImage}
-            onClear={onClear}
-          />
+          <div>
+            <h3 className='text-sm font-medium text-gray-900 mb-3'>
+              Custom Style
+            </h3>
+            <PhotoUpload
+              label='Upload style image'
+              description="Use an image with a style you'd like to apply"
+              inputId='style-image-input'
+              onImageUpload={onStyleImageUpload}
+              uploadedImage={styleImage}
+              onClear={onClear}
+            />
+          </div>
         </div>
       )}
     </div>

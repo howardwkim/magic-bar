@@ -191,7 +191,7 @@ export function App() {
 
       {/* Background Blur */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-40 z-40 ${
+        className={`fixed inset-0 bg-amber-50 g-opacity-40 z-40 ${
           isExpanded ? 'block' : 'hidden'
         }`}
       ></div>
@@ -208,7 +208,7 @@ export function App() {
           <>
             {/* Step 1: Main Image Upload */}
             <ImageUploadStep
-              title='What do you want to create?'
+              title='Upload your favorite photo'
               stepNumber={1}
               isActive={activeStep === 0}
               onToggle={() => toggleStep(0)}

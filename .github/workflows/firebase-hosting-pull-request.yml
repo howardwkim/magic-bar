@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-      - name: Build production bundle
+      - name: Build preview bundle
         env:
           MAGIC_BAR_BASE_URL: ${{ secrets.MAGIC_BAR_BASE_URL || 'https://mementum-test-pr.web.app' }}
         run: npm run build:prod
@@ -27,3 +27,4 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MEMENTUM_TEST }}
           projectId: mementum-test
+          channelId: preview

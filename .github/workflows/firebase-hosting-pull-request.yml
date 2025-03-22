@@ -1,4 +1,4 @@
-name: Deploy multiple previews on PR
+name: Deploy to Staging on PR
 on: pull_request
 permissions:
   checks: write
@@ -23,23 +23,13 @@ jobs:
 
       - name: Build preview bundle
         env:
-          MAGIC_BAR_BASE_URL: ${{ secrets.MAGIC_BAR_BASE_URL || 'https://mementum-test-preview.web.app' }}
+          MAGIC_BAR_BASE_URL: 'https://staging-magic-bar.web.app'
         run: npm run build:prod
 
-      # Deploy to consistent preview URL
-      - name: Deploy to fixed preview channel
+      - name: Deploy to Staging
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MEMENTUM_TEST }}
           projectId: mementum-test
-          channelId: test-preview # Consistent URL
-
-      # Deploy to unique preview URL per PR
-      - name: Deploy to unique PR preview channel
-        uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MEMENTUM_TEST }}
-          projectId: mementum-test
-          channelId: pr-${{ github.event.number }} # Unique URL per PR
+          channelId: staging # This will deploy to staging-magic-bar.web.app

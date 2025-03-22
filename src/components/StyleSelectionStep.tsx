@@ -57,18 +57,12 @@ export function StyleSelectionStep({
               {styleOptions.map((style) => (
                 <div key={style.id} className='flex flex-col items-center'>
                   <div
-                    className={`w-full aspect-square rounded-lg bg-cover bg-center cursor-pointer mb-2 transition-all duration-200 ${
+                    className={`w-full aspect-square rounded-lg bg-cover bg-center cursor-pointer mb-2 transition-all duration-200 !border-2 ${
                       selectedStyle === style.id
-                        ? 'border-2 border-blue-500 ring-2 ring-blue-200'
-                        : 'border-2 border-gray-300 hover:border-gray-400'
+                        ? '!border-blue-500 !ring-2 !ring-blue-200'
+                        : '!border-gray-300 hover:!border-gray-400'
                     }`}
-                    style={{
-                      backgroundImage: `url(${style.imageUrl})`,
-                      boxShadow:
-                        selectedStyle === style.id
-                          ? '0 0 0 2px #3b82f6, 0 0 0 4px rgba(59, 130, 246, 0.2)'
-                          : 'none',
-                    }}
+                    style={{ backgroundImage: `url(${style.imageUrl})` }}
                     onClick={() => onStyleSelect(style.id)}
                   ></div>
                   <span className='text-xs text-gray-600 text-center'>

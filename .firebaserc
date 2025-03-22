@@ -2,6 +2,19 @@
   "projects": {
     "default": "mementum-test"
   },
+  "targets": {
+    "mementum-test": {
+      "hosting": {
+        "staging": [
+          "staging-magic-bar"
+        ],
+        "production": [
+          "production-magic-bar"
+        ]
+      }
+    }
+  },
+  "etags": {},
   "dataconnectEmulatorConfig": {
     "postgres": {
       "localConnectionString": "postgresql://localhost:5432?sslmode=disable"

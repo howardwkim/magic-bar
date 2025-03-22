@@ -57,10 +57,10 @@ export function StyleSelectionStep({
               {styleOptions.map((style) => (
                 <div key={style.id} className='flex flex-col items-center'>
                   <div
-                    className={`w-full aspect-square rounded-lg bg-cover bg-center cursor-pointer border-2 mb-2 ${
+                    className={`w-full aspect-square rounded-lg bg-cover bg-center cursor-pointer mb-2 transition-all duration-200 !border-2 ${
                       selectedStyle === style.id
-                        ? 'border-blue-500'
-                        : 'border-gray-200'
+                        ? '!border-blue-500 !ring-2 !ring-blue-200'
+                        : '!border-gray-300 hover:!border-gray-400'
                     }`}
                     style={{ backgroundImage: `url(${style.imageUrl})` }}
                     onClick={() => onStyleSelect(style.id)}

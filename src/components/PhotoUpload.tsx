@@ -1,5 +1,5 @@
 import { JSX } from 'preact';
-
+import { useRef } from 'preact/hooks';
 interface PhotoUploadProps {
   label: string;
   description: string;
@@ -17,9 +17,18 @@ export function PhotoUpload({
   uploadedImage,
   onClear,
 }: PhotoUploadProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleClick = (e: MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    inputRef.current?.click();
+  };
+
   return (
     <div>
       <input
+        ref={inputRef}
         type='file'
         id={inputId}
         className='hidden'
@@ -30,7 +39,7 @@ export function PhotoUpload({
       {!uploadedImage ? (
         <div
           className='border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer'
-          onClick={() => document.getElementById(inputId)?.click()}
+          onClick={handleClick}
         >
           <div className='text-2xl mb-2'>+</div>
           <div>{label}</div>

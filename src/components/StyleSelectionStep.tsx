@@ -1,8 +1,10 @@
 import { JSX } from 'preact';
+import { PhotoUpload } from './PhotoUpload';
 
 interface StyleOption {
   id: string;
   imageUrl: string;
+  label: string;
 }
 
 interface StyleSelectionStepProps {
@@ -13,6 +15,7 @@ interface StyleSelectionStepProps {
   onStyleImageUpload: JSX.GenericEventHandler<HTMLInputElement>;
   onStyleSelect: (style: string) => void;
   styleOptions: StyleOption[];
+  onClear?: () => void;
 }
 
 export function StyleSelectionStep({
@@ -23,6 +26,7 @@ export function StyleSelectionStep({
   onStyleImageUpload,
   onStyleSelect,
   styleOptions,
+  onClear,
 }: StyleSelectionStepProps) {
   return (
     <div className='border-b border-gray-200 overflow-hidden'>
@@ -30,9 +34,12 @@ export function StyleSelectionStep({
         className='flex justify-between items-center p-4 cursor-pointer bg-white'
         onClick={onToggle}
       >
-        <div>
+        <div className='flex items-start'>
           <span className='font-bold mr-2'>2</span>
           <span>Select a style</span>
+          <span className='text-red-500 text-sm leading-none align-super'>
+            •
+          </span>
         </div>
         <div className={`transition-transform ${isActive ? 'rotate-180' : ''}`}>
           ▼
@@ -41,53 +48,44 @@ export function StyleSelectionStep({
 
       {isActive && (
         <div className='p-4'>
-          <div className='grid grid-cols-2 gap-3 mb-4'>
-            {/* Predefined styles */}
-            {styleOptions.map((style) => (
-              <div
-                key={style.id}
-                className={`rounded-lg aspect-square bg-cover bg-center cursor-pointer border ${
-                  selectedStyle === style.id
-                    ? 'border-2 border-blue-500'
-                    : 'border-gray-200'
-                }`}
-                style={{ backgroundImage: `url(${style.imageUrl})` }}
-                onClick={() => onStyleSelect(style.id)}
-              ></div>
-            ))}
+          <div className='mb-6'>
+            <h3 className='text-sm font-medium text-gray-900 mb-3'>
+              Preset Styles
+            </h3>
+            <div className='grid grid-cols-3 gap-4'>
+              {/* Predefined styles */}
+              {styleOptions.map((style) => (
+                <div key={style.id} className='flex flex-col items-center'>
+                  <div
+                    className={`w-full aspect-square rounded-lg bg-cover bg-center cursor-pointer border-2 mb-2 ${
+                      selectedStyle === style.id
+                        ? 'border-blue-500'
+                        : 'border-gray-200'
+                    }`}
+                    style={{ backgroundImage: `url(${style.imageUrl})` }}
+                    onClick={() => onStyleSelect(style.id)}
+                  ></div>
+                  <span className='text-xs text-gray-600 text-center'>
+                    {style.label}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <p className='mb-2'>Or upload your own style image:</p>
-          <input
-            type='file'
-            id='style-image-input'
-            className='hidden'
-            accept='image/*'
-            onChange={onStyleImageUpload}
-          />
-
-          {!styleImage ? (
-            <div
-              className='border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer'
-              onClick={() =>
-                document.getElementById('style-image-input')?.click()
-              }
-            >
-              <div className='text-2xl mb-2'>+</div>
-              <div>Upload style image</div>
-              <div className='text-xs text-gray-500'>
-                Use an image with a style you'd like to apply
-              </div>
-            </div>
-          ) : (
-            <div className='mt-4'>
-              <img
-                src={styleImage}
-                alt='Style Image'
-                className='max-w-full rounded-lg'
-              />
-            </div>
-          )}
+          <div>
+            <h3 className='text-sm font-medium text-gray-900 mb-3'>
+              Custom Style
+            </h3>
+            <PhotoUpload
+              label='Upload style image'
+              description="Use an image with a style you'd like to apply"
+              inputId='style-image-input'
+              onImageUpload={onStyleImageUpload}
+              uploadedImage={styleImage}
+              onClear={onClear}
+            />
+          </div>
         </div>
       )}
     </div>

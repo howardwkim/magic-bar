@@ -1,4 +1,5 @@
 import { JSX } from 'preact';
+import { PhotoUpload } from './PhotoUpload';
 
 interface ImageUploadStepProps {
   title: string;
@@ -10,6 +11,7 @@ interface ImageUploadStepProps {
   uploadLabel: string;
   uploadDescription: string;
   inputId: string;
+  onClear?: () => void;
 }
 
 export function ImageUploadStep({
@@ -22,6 +24,7 @@ export function ImageUploadStep({
   uploadLabel,
   uploadDescription,
   inputId,
+  onClear,
 }: ImageUploadStepProps) {
   return (
     <div className='border-b border-gray-200 overflow-hidden'>
@@ -29,9 +32,12 @@ export function ImageUploadStep({
         className='flex justify-between items-center p-4 cursor-pointer bg-white'
         onClick={onToggle}
       >
-        <div>
+        <div className='flex items-start'>
           <span className='font-bold mr-2'>{stepNumber}</span>
           <span>{title}</span>
+          <span className='text-red-500 text-sm leading-none align-super'>
+            •
+          </span>
         </div>
         <div className={`transition-transform ${isActive ? 'rotate-180' : ''}`}>
           ▼
@@ -40,32 +46,14 @@ export function ImageUploadStep({
 
       {isActive && (
         <div className='p-4'>
-          <input
-            type='file'
-            id={inputId}
-            className='hidden'
-            accept='image/*'
-            onChange={onImageUpload}
+          <PhotoUpload
+            label={uploadLabel}
+            description={uploadDescription}
+            inputId={inputId}
+            onImageUpload={onImageUpload}
+            uploadedImage={uploadedImage}
+            onClear={onClear}
           />
-
-          {!uploadedImage ? (
-            <div
-              className='border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer'
-              onClick={() => document.getElementById(inputId)?.click()}
-            >
-              <div className='text-2xl mb-2'>+</div>
-              <div>{uploadLabel}</div>
-              <div className='text-xs text-gray-500'>{uploadDescription}</div>
-            </div>
-          ) : (
-            <div className='mt-4'>
-              <img
-                src={uploadedImage}
-                alt='Uploaded Image'
-                className='max-w-full rounded-lg'
-              />
-            </div>
-          )}
         </div>
       )}
     </div>

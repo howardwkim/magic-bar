@@ -22,10 +22,42 @@ export function App() {
   >(null);
 
   const styleOptions = [
-    { id: 'style1', imageUrl: 'https://picsum.photos/id/237/200' },
-    { id: 'style2', imageUrl: 'https://picsum.photos/id/238/200' },
-    { id: 'style3', imageUrl: 'https://picsum.photos/id/239/200' },
-    { id: 'style4', imageUrl: 'https://picsum.photos/id/240/200' },
+    {
+      id: 'impressionism',
+      imageUrl:
+        'https://images.unsplash.com/photo-1577083552431-6e5c0198d8b3?w=400&h=400&fit=crop',
+      label: 'Impressionism',
+    },
+    {
+      id: 'pop-art',
+      imageUrl:
+        'https://images.unsplash.com/photo-1577083552431-6e5c0198d8b3?w=400&h=400&fit=crop',
+      label: 'Pop Art',
+    },
+    {
+      id: 'minimalism',
+      imageUrl:
+        'https://images.unsplash.com/photo-1577083552431-6e5c0198d8b3?w=400&h=400&fit=crop',
+      label: 'Minimalism',
+    },
+    {
+      id: 'art-deco',
+      imageUrl:
+        'https://images.unsplash.com/photo-1577083552431-6e5c0198d8b3?w=400&h=400&fit=crop',
+      label: 'Art Deco',
+    },
+    {
+      id: 'watercolor',
+      imageUrl:
+        'https://images.unsplash.com/photo-1577083552431-6e5c0198d8b3?w=400&h=400&fit=crop',
+      label: 'Watercolor',
+    },
+    {
+      id: 'abstract',
+      imageUrl:
+        'https://images.unsplash.com/photo-1577083552431-6e5c0198d8b3?w=400&h=400&fit=crop',
+      label: 'Abstract',
+    },
   ];
 
   const availableTags = ['Dainty', 'Minimalist', 'Bold', 'Vintage'];
@@ -46,7 +78,6 @@ export function App() {
       reader.onload = (e) => {
         const result = e.target?.result as string;
         setMainImage(result);
-        setActiveStep(1);
       };
       reader.readAsDataURL(file);
     }
@@ -61,7 +92,6 @@ export function App() {
         const result = e.target?.result as string;
         setStyleImage(result);
         setSelectedStyle(null); // Clear any selected predefined style
-        setActiveStep(2);
       };
       reader.readAsDataURL(file);
     }
@@ -70,7 +100,6 @@ export function App() {
   const selectStyleOption = (style: string) => {
     setSelectedStyle(style);
     setStyleImage(null); // Clear any uploaded style image
-    setActiveStep(2);
   };
 
   const toggleTag = (tag: string) => {
@@ -162,17 +191,12 @@ export function App() {
   };
 
   const handleOutsideClick = (e: MouseEvent) => {
-    // Only close if clicking outside floating bar and expanded UI
+    // Only close if clicking the background overlay
     const target = e.target as HTMLElement;
-    const floatingBar = document.getElementById('floating-bar');
-    const expandedUI = document.getElementById('expanded-ui');
+    const overlay = document.getElementById('modal-overlay');
 
-    if (isExpanded && floatingBar && expandedUI) {
-      const isClickInsideModal =
-        expandedUI.contains(target) || floatingBar.contains(target);
-      if (!isClickInsideModal) {
-        setIsExpanded(false);
-      }
+    if (isExpanded && overlay && target === overlay) {
+      setIsExpanded(false);
     }
   };
 
@@ -191,9 +215,11 @@ export function App() {
 
       {/* Background Blur */}
       <div
-        className={`fixed inset-0 bg-black bg-opacity-40 z-40 ${
+        id='modal-overlay'
+        className={`fixed inset-0 bg-amber-50 g-opacity-40 z-40 ${
           isExpanded ? 'block' : 'hidden'
         }`}
+        onClick={handleOutsideClick}
       ></div>
 
       {/* Expanded UI */}
@@ -208,7 +234,7 @@ export function App() {
           <>
             {/* Step 1: Main Image Upload */}
             <ImageUploadStep
-              title='What do you want to create?'
+              title='Upload your favorite photo'
               stepNumber={1}
               isActive={activeStep === 0}
               onToggle={() => toggleStep(0)}
@@ -217,6 +243,7 @@ export function App() {
               uploadLabel='Upload your image'
               uploadDescription='Select a high-quality image to transform'
               inputId='main-image-input'
+              onClear={() => setMainImage(null)}
             />
 
             {/* Step 2: Style Selection */}
@@ -228,6 +255,10 @@ export function App() {
               onStyleImageUpload={handleStyleImageUpload}
               onStyleSelect={selectStyleOption}
               styleOptions={styleOptions}
+              onClear={() => {
+                setStyleImage(null);
+                setSelectedStyle(null);
+              }}
             />
 
             {/* Step 3: Prompt Input */}
@@ -239,10 +270,18 @@ export function App() {
               activeTags={activeTags}
               onTagToggle={toggleTag}
               availableTags={availableTags}
+              mainImage={mainImage}
+              styleImage={styleImage}
+              selectedStyle={selectedStyle}
+              styleOptions={styleOptions}
             />
 
             {/* Action Buttons */}
-            <ActionButtons onClear={handleClear} onDream={handleDream} />
+            <ActionButtons
+              onClear={handleClear}
+              onDream={handleDream}
+              disabled={!mainImage || (!styleImage && !selectedStyle)}
+            />
           </>
         )}
 

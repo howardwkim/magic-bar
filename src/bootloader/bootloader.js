@@ -9,23 +9,32 @@
     containerId: 'magic-bar-container',
   };
 
-  // Create container for the app
+  // Create container for the app with Shadow DOM for style isolation
   function createContainer() {
-    const container = document.createElement('div');
-    container.id = config.containerId;
-    document.body.appendChild(container);
-    return container;
+    const hostContainer = document.createElement('div');
+    hostContainer.id = config.containerId;
+
+    // Attach Shadow DOM to the container
+    const shadowRoot = hostContainer.attachShadow({ mode: 'open' });
+
+    // Create an inner container inside the Shadow DOM
+    const innerContainer = document.createElement('div');
+    innerContainer.id = `${config.containerId}-inner`;
+    shadowRoot.appendChild(innerContainer);
+
+    document.body.appendChild(hostContainer);
+    return { hostContainer, shadowRoot, innerContainer };
   }
 
-  // Load CSS
-  function loadCSS(url) {
+  // Load CSS within Shadow DOM
+  function loadCSS(url, shadowRoot) {
     return new Promise((resolve, reject) => {
       const link = document.createElement('link');
       link.rel = 'stylesheet';
       link.href = url;
       link.onload = () => resolve();
       link.onerror = () => reject(new Error(`Failed to load CSS: ${url}`));
-      document.head.appendChild(link);
+      shadowRoot.appendChild(link);
     });
   }
 
@@ -47,13 +56,13 @@
     try {
       console.log('Initializing Magic Bar...');
 
-      // Create container
-      const container = createContainer();
+      // Create container with Shadow DOM
+      const { hostContainer, shadowRoot, innerContainer } = createContainer();
 
-      // Load CSS first
+      // Load CSS within Shadow DOM
       const cssUrl = `${config.baseUrl}/magic-bar.css`;
       console.log('Loading CSS from:', cssUrl);
-      await loadCSS(cssUrl);
+      await loadCSS(cssUrl, shadowRoot);
 
       // Then load JavaScript
       const jsUrl = `${config.baseUrl}/magic-bar.js`;
@@ -67,7 +76,7 @@
         typeof window[config.appName].init === 'function'
       ) {
         console.log('Initializing MagicBar app...');
-        window[config.appName].init(container);
+        window[config.appName].init(innerContainer, shadowRoot);
         console.log('MagicBar initialized successfully!');
       } else {
         console.error(

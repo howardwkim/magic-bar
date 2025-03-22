@@ -8,7 +8,7 @@ export function FloatingBar({ onClick }: FloatingBarProps) {
   return (
     <div
       id='floating-bar'
-      className='fixed top-3 left-1/2 transform -translate-x-1/2 bg-white text-black rounded-full 
+      className='fixed top-3 left-1/2 transform -translate-x-1/2 bg-white text-black rounded-lg
                 py-2.5 px-5 flex items-center gap-3 shadow-lg cursor-pointer z-50 w-4/5 max-w-md transition-all'
       onClick={onClick}
     >
@@ -16,8 +16,8 @@ export function FloatingBar({ onClick }: FloatingBarProps) {
         ✨
       </div>
       <div className='flex-grow'>
-        <div className='font-semibold'>Dream something up</div>
-        <div className='text-xs text-gray-500'>Any product, any style</div>
+        <div className='font-semibold'>Create some art!</div>
+        <div className='text-xs text-gray-500'>Any photo, any style</div>
       </div>
     </div>
   );

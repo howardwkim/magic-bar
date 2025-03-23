@@ -29,11 +29,15 @@ else
   npm install
 fi
 
-# 3. Run the build process
+# 3. Inject version information
+echo "📝 Injecting version information..."
+node scripts/inject-version.js "$1"
+
+# 4. Run the build process
 echo "🏗️ Building application..."
 npm run build
 
-# 4. Generate the bootloader with the correct base URL
+# 5. Generate the bootloader with the correct base URL
 echo "🚀 Generating bootloader..."
 if [ -f "src/bootloader/bootloader.js" ]; then
   echo "🔄 Processing bootloader.js with environment variables..."
@@ -66,7 +70,7 @@ else
   fi
 fi
 
-# 5. Verify files exist
+# 6. Verify files exist
 echo "🔍 Verifying built files..."
 if [ ! -f "dist/bootloader.min.js" ]; then
   echo "❌ Error: bootloader.min.js not found in dist directory!"

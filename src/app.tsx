@@ -216,7 +216,7 @@ export function App() {
       {/* Background Blur */}
       <div
         id='modal-overlay'
-        className={`fixed inset-0 bg-amber-50 bg-opacity-20 z-40 ${
+        className={`fixed inset-0 bg-amber-50/60 z-40 ${
           isExpanded ? 'block' : 'hidden'
         }`}
         onClick={handleOutsideClick}

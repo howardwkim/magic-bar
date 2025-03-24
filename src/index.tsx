@@ -26,22 +26,10 @@ window.MagicBar = {
       document.body.appendChild(container);
     }
 
-    // Get the Shadow Root if we're in a Shadow DOM context
-    const shadowRoot = container.getRootNode() as ShadowRoot;
-    const isShadowDOM = shadowRoot instanceof ShadowRoot;
+    // Render the app into the container
+    render(<App />, container);
 
-    // Create a wrapper div for the app
-    const appWrapper = document.createElement('div');
-    appWrapper.id = 'magic-bar-app';
-    container.appendChild(appWrapper);
-
-    // Render the app into the wrapper
-    render(<App />, appWrapper);
-
-    console.log(
-      'Magic Bar initialized in',
-      isShadowDOM ? 'Shadow DOM' : 'main document',
-    );
+    console.log('Magic Bar initialized');
   },
 };
 

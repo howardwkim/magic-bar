@@ -1,13 +1,64 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + Preact + TS</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite + Preact + TS</title>
+  <style>
+    .floating-emoji {
+      position: fixed;
+      top: calc(100vh * var(--y));
+      left: calc(100vw * var(--x));
+      font-size: 2rem;
+      animation: float 10s linear infinite;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0);
+      }
+
+      100% {
+        transform: translateY(-100vh);
+      }
+    }
+
+    .ascii-cat {
+      font-family: monospace;
+      white-space: pre;
+      padding: 1rem;
+      background: #222;
+      color: #0f0;
+      margin: 2rem auto;
+      width: fit-content;
+      border-radius: 0.5rem;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app"></div>
+
+  <!-- Surprise ASCII cat -->
+  <div class="ascii-cat">
+    /\_/\
+    ( o.o )
+    &gt; ^ &lt;
+  </div>
+
+  <!-- Floating emojis for fun -->
+  <div class="floating-emoji" style="--x: 0.1; --y: 0.8;">🌈</div>
+  <div class="floating-emoji" style="--x: 0.5; --y: 0.9;">🦄</div>
+  <div class="floating-emoji" style="--x: 0.8; --y: 0.85;">✨</div>
+
+  <!-- A motivational quote -->
+  <blockquote style="text-align: center; font-style: italic; margin-top: 2rem;">
+    "Code is like humor. When you have to explain it, it’s bad." – Cory House
+  </blockquote>
+
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

@@ -86,6 +86,20 @@ Find the `theme.liquid` file (under Layout) and paste the following code just be
 <!-- End Magic Bar Integration -->
 ```
 
+```html
+<!-- Magic Bar Integration Staging -->
+<script>
+(function () {
+  const script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = 'https://staging-magic-bar.web.app/bootloader.min.js';
+  script.async = true;
+  document.body.appendChild(script);
+})();
+</script>
+<!-- End Magic Bar Integration -->
+```
+
 ### 5. Save your changes
 
 Click the "Save" button to apply your changes.

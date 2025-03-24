@@ -38,8 +38,8 @@
     });
   }
 
-  // Load JS
-  function loadJS(url) {
+  // Load JS within Shadow DOM
+  function loadJS(url, shadowRoot) {
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
       script.type = 'text/javascript';
@@ -47,7 +47,7 @@
       script.onload = () => resolve();
       script.onerror = () =>
         reject(new Error(`Failed to load JavaScript: ${url}`));
-      document.body.appendChild(script);
+      shadowRoot.appendChild(script);
     });
   }
 
@@ -64,10 +64,10 @@
       console.log('Loading CSS from:', cssUrl);
       await loadCSS(cssUrl, shadowRoot);
 
-      // Then load JavaScript
+      // Then load JavaScript within Shadow DOM
       const jsUrl = `${config.baseUrl}/magic-bar.js`;
       console.log('Loading JS from:', jsUrl);
-      await loadJS(jsUrl);
+      await loadJS(jsUrl, shadowRoot);
 
       // Initialize the app
       console.log('Checking for MagicBar object...');
@@ -76,7 +76,7 @@
         typeof window[config.appName].init === 'function'
       ) {
         console.log('Initializing MagicBar app...');
-        window[config.appName].init(innerContainer, shadowRoot);
+        window[config.appName].init(innerContainer);
         console.log('MagicBar initialized successfully!');
       } else {
         console.error(

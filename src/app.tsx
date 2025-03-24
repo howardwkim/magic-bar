@@ -225,7 +225,7 @@ export function App() {
       {/* Expanded UI */}
       <div
         id='expanded-ui'
-        className={`fixed top-[50px] left-1/2 transform -translate-x-1/2 w-[90%] max-w-md bg-white rounded-xl shadow-xl z-50 
+        className={`fixed top-[50px] inset-x-0 mx-auto w-[90%] max-w-md bg-white rounded-xl shadow-xl z-50 
           transition-all duration-300 ease-in-out overflow-hidden ${
             isExpanded ? 'block' : 'hidden'
           }`}

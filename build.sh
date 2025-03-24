@@ -29,9 +29,9 @@ else
   npm install
 fi
 
-# 3. Inject version information
-echo "📝 Injecting version information..."
-node scripts/inject-version.js "$1"
+# # 3. Inject version information
+# echo "📝 Injecting version information..."
+# node scripts/inject-version.js "$1"
 
 # 4. Run the build process
 echo "🏗️ Building application..."

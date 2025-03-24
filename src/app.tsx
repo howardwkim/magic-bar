@@ -6,7 +6,6 @@ import { PromptInputStep } from './components/PromptInputStep';
 import { ActionButtons } from './components/ActionButtons';
 import { LoadingView } from './components/LoadingView';
 import { ResultsView } from './components/ResultsView';
-import { VersionInfo } from './components/VersionInfo';
 
 export function App() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -21,7 +20,6 @@ export function App() {
   const [selectedGeneratedImage, setSelectedGeneratedImage] = useState<
     number | null
   >(null);
-  const [isRootPath, setIsRootPath] = useState(false);
 
   const styleOptions = [
     {
@@ -209,17 +207,6 @@ export function App() {
       document.removeEventListener('click', handleOutsideClick);
     };
   }, [isExpanded]);
-
-  // Check if we're on the root path
-  useEffect(() => {
-    const path = window.location.pathname;
-    setIsRootPath(path === '/' || path === '');
-  }, []);
-
-  // If we're on the root path, show version info
-  if (isRootPath) {
-    return <VersionInfo />;
-  }
 
   return (
     <div className='font-sans antialiased bg-gray-50 min-h-screen'>

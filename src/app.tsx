@@ -209,14 +209,14 @@ export function App() {
   }, [isExpanded]);
 
   return (
-    <div className='font-sans antialiased bg-gray-50 min-h-screen'>
+    <div>
       {/* Floating Bar */}
       <FloatingBar onClick={toggleExpand} />
 
       {/* Background Blur */}
       <div
         id='modal-overlay'
-        className={`fixed inset-0 bg-amber-50 g-opacity-40 z-40 ${
+        className={`fixed inset-0 bg-amber-50 bg-opacity-40 z-40 ${
           isExpanded ? 'block' : 'hidden'
         }`}
         onClick={handleOutsideClick}

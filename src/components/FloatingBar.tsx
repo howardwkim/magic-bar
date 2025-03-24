@@ -8,7 +8,7 @@ export function FloatingBar({ onClick }: FloatingBarProps) {
   return (
     <div
       id='floating-bar'
-      className='fixed top-3 inset-x-0 mx-auto bg-white text-black rounded-lg
+      className='fixed bottom-6 inset-x-0 mx-auto bg-white text-black rounded-lg
             py-2.5 px-5 flex items-center gap-3 shadow-lg cursor-pointer z-50 w-4/5 max-w-md transition-all'
       onClick={onClick}
     >

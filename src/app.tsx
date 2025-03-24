@@ -225,9 +225,14 @@ export function App() {
       {/* Expanded UI */}
       <div
         id='expanded-ui'
-        className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md bg-white rounded-xl shadow-xl z-50 overflow-hidden ${
-          isExpanded ? 'block' : 'hidden'
-        }`}
+        className={`fixed top-[50px] inset-x-0 mx-auto w-[90%] max-w-md bg-white rounded-xl shadow-xl z-50 
+          transition-all duration-300 ease-in-out overflow-hidden ${
+            isExpanded ? 'block' : 'hidden'
+          }`}
+        style={{
+          maxHeight: 'calc(100vh - 100px)',
+          overflowY: 'auto',
+        }}
       >
         {/* Only show steps if not loading and no results yet */}
         {!isLoading && generatedImages.length === 0 && (

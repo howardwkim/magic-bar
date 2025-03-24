@@ -29,10 +29,10 @@ export default defineConfig({
 
     // Minify for production
     minify: 'terser',
-    rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'index.html'),
-      },
-    },
+    // rollupOptions: {
+    //   input: {
+    //     main: resolve(__dirname, 'index.html'),
+    //   },
+    // },
   },
 });

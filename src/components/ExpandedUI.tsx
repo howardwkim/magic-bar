@@ -46,55 +46,46 @@ const styleOptions = [
 ];
 
 interface ExpandedUIProps {
-  isExpanded: boolean;
-  generatedImages: string[];
-  mainImage: string | null;
-  handleMainImageUpload: (e: Event) => void;
-  setMainImage: (image: string | null) => void;
-  selectedStyle: string | null;
-  styleImage: string | null;
-  handleStyleImageUpload: (e: Event) => void;
-  selectStyleOption: (style: string) => void;
-  setStyleImage: (image: string | null) => void;
-  setSelectedStyle: (style: string | null) => void;
-  prompt: string;
-  handlePromptChange: (e: Event) => void;
   activeTags: string[];
-  toggleTag: (tag: string) => void;
   availableTags: string[];
+  generatedImages: string[];
   handleClear: () => void;
   handleDream: () => void;
+  handleMainImageUpload: (e: Event) => void;
+  handlePromptChange: (e: Event) => void;
+  handleStyleImageUpload: (e: Event) => void;
+  isExpanded: boolean;
+  mainImage: string | null;
+  prompt: string;
+  selectStyleOption: (style: string) => void;
+  selectedStyle: string | null;
+  setMainImage: (image: string | null) => void;
+  setSelectedStyle: (style: string | null) => void;
+  setStyleImage: (image: string | null) => void;
+  styleImage: string | null;
+  toggleTag: (tag: string) => void;
 }
 
 export function ExpandedUI({
-  isExpanded,
-  generatedImages,
-  mainImage,
-  handleMainImageUpload,
-  setMainImage,
-  selectedStyle,
-  styleImage,
-  handleStyleImageUpload,
-  selectStyleOption,
-  setStyleImage,
-  setSelectedStyle,
-  prompt,
-  handlePromptChange,
   activeTags,
-  toggleTag,
   availableTags,
+  generatedImages,
   handleClear,
   handleDream,
-}: Omit<
-  ExpandedUIProps,
-  | 'activeStep'
-  | 'toggleStep'
-  | 'isLoading'
-  | 'selectedGeneratedImage'
-  | 'setSelectedGeneratedImage'
-  | 'handleRegenerate'
-  | 'handleSelect'
->) {
+  handleMainImageUpload,
+  handlePromptChange,
+  handleStyleImageUpload,
+  isExpanded,
+  mainImage,
+  prompt,
+  selectStyleOption,
+  selectedStyle,
+  setMainImage,
+  setSelectedStyle,
+  setStyleImage,
+  styleImage,
+  toggleTag,
+}: ExpandedUIProps) {
   const [activeStep, setActiveStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedGeneratedImage, setSelectedGeneratedImage] = useState<

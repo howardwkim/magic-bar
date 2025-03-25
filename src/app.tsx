@@ -80,7 +80,7 @@ export function App() {
         .fill(0)
         .map(
           (_) =>
-            `https://placekitten.com/400/400?image=${Math.floor(
+            `https://cataas.com/cat?width=400&height=400&t=${Math.floor(
               Math.random() * 1000,
             )}`,
         );
@@ -133,24 +133,24 @@ export function App() {
 
       {/* Expanded UI */}
       <ExpandedUI
-        isExpanded={isExpanded}
-        generatedImages={generatedImages}
-        mainImage={mainImage}
-        handleMainImageUpload={handleMainImageUpload}
-        setMainImage={setMainImage}
-        selectedStyle={selectedStyle}
-        styleImage={styleImage}
-        handleStyleImageUpload={handleStyleImageUpload}
-        selectStyleOption={selectStyleOption}
-        setStyleImage={setStyleImage}
-        setSelectedStyle={setSelectedStyle}
-        prompt={prompt}
-        handlePromptChange={handlePromptChange}
         activeTags={activeTags}
-        toggleTag={toggleTag}
         availableTags={availableTags}
+        generatedImages={generatedImages}
         handleClear={handleClear}
         handleDream={handleDream}
+        handleMainImageUpload={handleMainImageUpload}
+        handlePromptChange={handlePromptChange}
+        handleStyleImageUpload={handleStyleImageUpload}
+        isExpanded={isExpanded}
+        mainImage={mainImage}
+        prompt={prompt}
+        selectStyleOption={selectStyleOption}
+        selectedStyle={selectedStyle}
+        setMainImage={setMainImage}
+        setSelectedStyle={setSelectedStyle}
+        setStyleImage={setStyleImage}
+        styleImage={styleImage}
+        toggleTag={toggleTag}
       />
     </div>
   );

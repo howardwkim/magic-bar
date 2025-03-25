@@ -3,8 +3,19 @@ import { JSX } from 'preact';
 interface FloatingBarProps {
   onClick: JSX.MouseEventHandler<HTMLDivElement>;
 }
+interface FloatingBarProps {
+  onClick: JSX.MouseEventHandler<HTMLDivElement>;
+  icon?: string;
+  title?: string;
+  subtitle?: string;
+}
 
-export function FloatingBar({ onClick }: FloatingBarProps) {
+export function FloatingBar({
+  onClick,
+  icon = '✨',
+  title = 'Create some art!',
+  subtitle = 'Any photo, any style',
+}: FloatingBarProps) {
   return (
     <div
       id='floating-bar'
@@ -13,11 +24,11 @@ export function FloatingBar({ onClick }: FloatingBarProps) {
       onClick={onClick}
     >
       <div className='bg-yellow-200 rounded-lg w-8 h-8 flex items-center justify-center mr-2'>
-        ✨
+        {icon}
       </div>
       <div className='flex-grow'>
-        <div className='font-semibold'>Create some art!</div>
-        <div className='text-xs text-gray-500'>Any photo, any style</div>
+        <div className='font-semibold'>{title}</div>
+        <div className='text-xs text-gray-500'>{subtitle}</div>
       </div>
     </div>
   );

@@ -82,7 +82,7 @@ export function ExpandedUI({ isExpanded }: ExpandedUIProps) {
     setTimeout(() => {
       setIsLoading(false);
       setSelectedGeneratedImage(null);
-    }, 3000);
+    }, 1000);
   };
 
   const handleSelect = () => {

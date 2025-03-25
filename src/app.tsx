@@ -3,7 +3,7 @@ import { FloatingBar } from './components/FloatingBar';
 import { ExpandedUI } from './components/ExpandedUI';
 import { MagicBarProvider } from './context/MagicBarContext';
 
-function AppContent() {
+function AppContainer() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleOutsideClick = (e: MouseEvent) => {
@@ -47,7 +47,7 @@ function AppContent() {
 export function App() {
   return (
     <MagicBarProvider>
-      <AppContent />
+      <AppContainer />
     </MagicBarProvider>
   );
 }

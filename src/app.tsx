@@ -1,103 +1,11 @@
-import { useState, useEffect } from 'preact/hooks';
+import { useEffect, useState } from 'preact/hooks';
 import { FloatingBar } from './components/FloatingBar';
 import { ExpandedUI } from './components/ExpandedUI';
+import { MagicBarProvider, useMagicBar } from './context/MagicBarContext';
 
-export function App() {
+function AppContent() {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [mainImage, setMainImage] = useState<string | null>(null);
-  const [styleImage, setStyleImage] = useState<string | null>(null);
-  const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
-  const [prompt, setPrompt] = useState('');
-  const [activeTags, setActiveTags] = useState<string[]>([]);
-  const [generatedImages, setGeneratedImages] = useState<string[]>([]);
-
-  const availableTags = ['Dainty', 'Minimalist', 'Bold', 'Vintage'];
-
-  const toggleExpand = () => {
-    setIsExpanded(!isExpanded);
-  };
-
-  const handleMainImageUpload = (e: Event) => {
-    const target = e.target as HTMLInputElement;
-    if (target.files && target.files[0]) {
-      const file = target.files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const result = e.target?.result as string;
-        setMainImage(result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleStyleImageUpload = (e: Event) => {
-    const target = e.target as HTMLInputElement;
-    if (target.files && target.files[0]) {
-      const file = target.files[0];
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const result = e.target?.result as string;
-        setStyleImage(result);
-        setSelectedStyle(null); // Clear any selected predefined style
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const selectStyleOption = (style: string) => {
-    setSelectedStyle(style);
-    setStyleImage(null); // Clear any uploaded style image
-  };
-
-  const toggleTag = (tag: string) => {
-    setActiveTags(
-      activeTags.includes(tag)
-        ? activeTags.filter((t) => t !== tag)
-        : [...activeTags, tag],
-    );
-  };
-
-  const handlePromptChange = (e: Event) => {
-    const target = e.target as HTMLTextAreaElement;
-    setPrompt(target.value);
-  };
-
-  const handleDream = () => {
-    if (!mainImage) {
-      alert('Please upload an image first');
-      return;
-    }
-
-    if (!styleImage && !selectedStyle) {
-      alert('Please select or upload a style image');
-      return;
-    }
-
-    // Simulate API call
-    setTimeout(() => {
-      // Generate mock images
-      const mockImages = Array(4)
-        .fill(0)
-        .map(
-          (_) =>
-            `https://cataas.com/cat?width=400&height=400&t=${Math.floor(
-              Math.random() * 1000,
-            )}`,
-        );
-
-      setGeneratedImages(mockImages);
-    }, 3000);
-  };
-
-  const handleClear = () => {
-    setMainImage(null);
-    setStyleImage(null);
-    setSelectedStyle(null);
-    setPrompt('');
-    setActiveTags([]);
-    setGeneratedImages([]);
-    setIsExpanded(false);
-  };
+  const { mainImage, styleImage, generatedImages } = useMagicBar();
 
   const handleOutsideClick = (e: MouseEvent) => {
     // Only close if clicking the background overlay
@@ -120,7 +28,7 @@ export function App() {
   return (
     <div>
       {/* Floating Bar */}
-      <FloatingBar onClick={toggleExpand} />
+      <FloatingBar onClick={() => setIsExpanded(!isExpanded)} />
 
       {/* Background Blur */}
       <div
@@ -132,26 +40,15 @@ export function App() {
       ></div>
 
       {/* Expanded UI */}
-      <ExpandedUI
-        activeTags={activeTags}
-        availableTags={availableTags}
-        generatedImages={generatedImages}
-        handleClear={handleClear}
-        handleDream={handleDream}
-        handleMainImageUpload={handleMainImageUpload}
-        handlePromptChange={handlePromptChange}
-        handleStyleImageUpload={handleStyleImageUpload}
-        isExpanded={isExpanded}
-        mainImage={mainImage}
-        prompt={prompt}
-        selectStyleOption={selectStyleOption}
-        selectedStyle={selectedStyle}
-        setMainImage={setMainImage}
-        setSelectedStyle={setSelectedStyle}
-        setStyleImage={setStyleImage}
-        styleImage={styleImage}
-        toggleTag={toggleTag}
-      />
+      <ExpandedUI isExpanded={isExpanded} />
     </div>
+  );
+}
+
+export function App() {
+  return (
+    <MagicBarProvider>
+      <AppContent />
+    </MagicBarProvider>
   );
 }

@@ -5,6 +5,7 @@ import { ImageUploadStep } from './ImageUploadStep';
 import { StyleSelectionStep } from './StyleSelectionStep';
 import { PromptInputStep } from './PromptInputStep';
 import { ActionButtons } from './ActionButtons';
+import { useMagicBar } from '../context/MagicBarContext';
 
 const styleOptions = [
   {
@@ -46,51 +47,29 @@ const styleOptions = [
 ];
 
 interface ExpandedUIProps {
-  activeTags: string[];
-  availableTags: string[];
-  generatedImages: string[];
-  handleClear: () => void;
-  handleDream: () => void;
-  handleMainImageUpload: (e: Event) => void;
-  handlePromptChange: (e: Event) => void;
-  handleStyleImageUpload: (e: Event) => void;
   isExpanded: boolean;
-  mainImage: string | null;
-  prompt: string;
-  selectStyleOption: (style: string) => void;
-  selectedStyle: string | null;
-  setMainImage: (image: string | null) => void;
-  setSelectedStyle: (style: string | null) => void;
-  setStyleImage: (image: string | null) => void;
-  styleImage: string | null;
-  toggleTag: (tag: string) => void;
 }
 
-export function ExpandedUI({
-  activeTags,
-  availableTags,
-  generatedImages,
-  handleClear,
-  handleDream,
-  handleMainImageUpload,
-  handlePromptChange,
-  handleStyleImageUpload,
-  isExpanded,
-  mainImage,
-  prompt,
-  selectStyleOption,
-  selectedStyle,
-  setMainImage,
-  setSelectedStyle,
-  setStyleImage,
-  styleImage,
-  toggleTag,
-}: ExpandedUIProps) {
+export function ExpandedUI({ isExpanded }: ExpandedUIProps) {
+  const {
+    mainImage,
+    styleImage,
+    generatedImages,
+    handleMainImageUpload,
+    handleStyleImageUpload,
+    handleDream,
+    setMainImage,
+    setStyleImage,
+  } = useMagicBar();
+
   const [activeStep, setActiveStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedGeneratedImage, setSelectedGeneratedImage] = useState<
     number | null
   >(null);
+  const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
+  const [prompt, setPrompt] = useState('');
+  const [activeTags, setActiveTags] = useState<string[]>([]);
 
   const toggleStep = (stepIndex: number) => {
     setActiveStep(activeStep === stepIndex ? -1 : stepIndex);
@@ -114,6 +93,22 @@ export function ExpandedUI({
 
     alert('Selected image would now be passed to checkout!');
     // In the real implementation, this would add the image to cart or trigger checkout
+  };
+
+  const handleClear = () => {
+    setMainImage(null);
+    setStyleImage(null);
+    setSelectedStyle(null);
+    setPrompt('');
+    setActiveTags([]);
+  };
+
+  const toggleTag = (tag: string) => {
+    setActiveTags(
+      activeTags.includes(tag)
+        ? activeTags.filter((t) => t !== tag)
+        : [...activeTags, tag],
+    );
   };
 
   return (
@@ -152,7 +147,7 @@ export function ExpandedUI({
             selectedStyle={selectedStyle}
             styleImage={styleImage}
             onStyleImageUpload={handleStyleImageUpload}
-            onStyleSelect={selectStyleOption}
+            onStyleSelect={setSelectedStyle}
             styleOptions={styleOptions}
             onClear={() => {
               setStyleImage(null);
@@ -165,10 +160,12 @@ export function ExpandedUI({
             isActive={activeStep === 2}
             onToggle={() => toggleStep(2)}
             prompt={prompt}
-            onPromptChange={handlePromptChange}
+            onPromptChange={(e) =>
+              setPrompt((e.target as HTMLTextAreaElement).value)
+            }
             activeTags={activeTags}
             onTagToggle={toggleTag}
-            availableTags={availableTags}
+            availableTags={['Dainty', 'Minimalist', 'Bold', 'Vintage']}
             mainImage={mainImage}
             styleImage={styleImage}
             selectedStyle={selectedStyle}
@@ -179,7 +176,7 @@ export function ExpandedUI({
           <ActionButtons
             onClear={handleClear}
             onDream={handleDream}
-            disabled={!mainImage || (!styleImage && !selectedStyle)}
+            disabled={!mainImage || !styleImage}
           />
         </>
       )}

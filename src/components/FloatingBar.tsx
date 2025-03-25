@@ -6,8 +6,8 @@ interface FloatingBarProps {
 interface FloatingBarProps {
   onClick: JSX.MouseEventHandler<HTMLDivElement>;
   icon?: string;
-  title: string;
-  subtitle: string;
+  title?: string;
+  subtitle?: string;
 }
 
 export function FloatingBar({

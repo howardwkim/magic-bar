@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'preact/hooks';
 import { FloatingBar } from './components/FloatingBar';
 import { ExpandedUI } from './components/ExpandedUI';
-import { MagicBarProvider, useMagicBar } from './context/MagicBarContext';
+import { MagicBarProvider } from './context/MagicBarContext';
 
 function AppContent() {
   const [isExpanded, setIsExpanded] = useState(false);
-  const { mainImage, styleImage, generatedImages } = useMagicBar();
 
   const handleOutsideClick = (e: MouseEvent) => {
     // Only close if clicking the background overlay

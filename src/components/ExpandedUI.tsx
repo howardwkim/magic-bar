@@ -1,3 +1,4 @@
+import { useState } from 'preact/hooks';
 import { ResultsView } from './ResultsView';
 import { LoadingView } from './LoadingView';
 import { ImageUploadStep } from './ImageUploadStep';
@@ -46,10 +47,7 @@ const styleOptions = [
 
 interface ExpandedUIProps {
   isExpanded: boolean;
-  isLoading: boolean;
   generatedImages: string[];
-  activeStep: number;
-  toggleStep: (stepIndex: number) => void;
   mainImage: string | null;
   handleMainImageUpload: (e: Event) => void;
   setMainImage: (image: string | null) => void;
@@ -66,18 +64,11 @@ interface ExpandedUIProps {
   availableTags: string[];
   handleClear: () => void;
   handleDream: () => void;
-  selectedGeneratedImage: number | null;
-  setSelectedGeneratedImage: (index: number | null) => void;
-  handleRegenerate: () => void;
-  handleSelect: () => void;
 }
 
 export function ExpandedUI({
   isExpanded,
-  isLoading,
   generatedImages,
-  activeStep,
-  toggleStep,
   mainImage,
   handleMainImageUpload,
   setMainImage,
@@ -94,11 +85,46 @@ export function ExpandedUI({
   availableTags,
   handleClear,
   handleDream,
-  selectedGeneratedImage,
-  setSelectedGeneratedImage,
-  handleRegenerate,
-  handleSelect,
-}: ExpandedUIProps) {
+}: Omit<
+  ExpandedUIProps,
+  | 'activeStep'
+  | 'toggleStep'
+  | 'isLoading'
+  | 'selectedGeneratedImage'
+  | 'setSelectedGeneratedImage'
+  | 'handleRegenerate'
+  | 'handleSelect'
+>) {
+  const [activeStep, setActiveStep] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedGeneratedImage, setSelectedGeneratedImage] = useState<
+    number | null
+  >(null);
+
+  const toggleStep = (stepIndex: number) => {
+    setActiveStep(activeStep === stepIndex ? -1 : stepIndex);
+  };
+
+  const handleRegenerate = () => {
+    setIsLoading(true);
+
+    // Simulate API call
+    setTimeout(() => {
+      setIsLoading(false);
+      setSelectedGeneratedImage(null);
+    }, 3000);
+  };
+
+  const handleSelect = () => {
+    if (selectedGeneratedImage === null) {
+      alert('Please select an image first');
+      return;
+    }
+
+    alert('Selected image would now be passed to checkout!');
+    // In the real implementation, this would add the image to cart or trigger checkout
+  };
+
   return (
     <div
       id='expanded-ui'

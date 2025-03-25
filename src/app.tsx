@@ -4,26 +4,17 @@ import { ExpandedUI } from './components/ExpandedUI';
 
 export function App() {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [activeStep, setActiveStep] = useState(0);
   const [mainImage, setMainImage] = useState<string | null>(null);
   const [styleImage, setStyleImage] = useState<string | null>(null);
   const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
   const [prompt, setPrompt] = useState('');
   const [activeTags, setActiveTags] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
-  const [selectedGeneratedImage, setSelectedGeneratedImage] = useState<
-    number | null
-  >(null);
 
   const availableTags = ['Dainty', 'Minimalist', 'Bold', 'Vintage'];
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
-  };
-
-  const toggleStep = (stepIndex: number) => {
-    setActiveStep(activeStep === stepIndex ? -1 : stepIndex);
   };
 
   const handleMainImageUpload = (e: Event) => {
@@ -82,12 +73,8 @@ export function App() {
       return;
     }
 
-    setIsLoading(true);
-
     // Simulate API call
     setTimeout(() => {
-      setIsLoading(false);
-
       // Generate mock images
       const mockImages = Array(4)
         .fill(0)
@@ -102,38 +89,6 @@ export function App() {
     }, 3000);
   };
 
-  const handleRegenerate = () => {
-    setIsLoading(true);
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-
-      // Generate new mock images
-      const mockImages = Array(4)
-        .fill(0)
-        .map(
-          (_) =>
-            `https://placekitten.com/400/400?image=${Math.floor(
-              Math.random() * 1000,
-            )}`,
-        );
-
-      setGeneratedImages(mockImages);
-      setSelectedGeneratedImage(null);
-    }, 3000);
-  };
-
-  const handleSelect = () => {
-    if (selectedGeneratedImage === null) {
-      alert('Please select an image first');
-      return;
-    }
-
-    alert('Selected image would now be passed to checkout!');
-    // In the real implementation, this would add the image to cart or trigger checkout
-  };
-
   const handleClear = () => {
     setMainImage(null);
     setStyleImage(null);
@@ -141,8 +96,6 @@ export function App() {
     setPrompt('');
     setActiveTags([]);
     setGeneratedImages([]);
-    setSelectedGeneratedImage(null);
-    setActiveStep(0);
     setIsExpanded(false);
   };
 
@@ -181,10 +134,7 @@ export function App() {
       {/* Expanded UI */}
       <ExpandedUI
         isExpanded={isExpanded}
-        isLoading={isLoading}
         generatedImages={generatedImages}
-        activeStep={activeStep}
-        toggleStep={toggleStep}
         mainImage={mainImage}
         handleMainImageUpload={handleMainImageUpload}
         setMainImage={setMainImage}
@@ -201,10 +151,6 @@ export function App() {
         availableTags={availableTags}
         handleClear={handleClear}
         handleDream={handleDream}
-        selectedGeneratedImage={selectedGeneratedImage}
-        setSelectedGeneratedImage={setSelectedGeneratedImage}
-        handleRegenerate={handleRegenerate}
-        handleSelect={handleSelect}
       />
     </div>
   );

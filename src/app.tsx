@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'preact/hooks';
+import { useState } from 'preact/hooks';
 import { FloatingBar } from './components/FloatingBar';
 import { ExpandedUI } from './components/ExpandedUI';
 import { MagicBarProvider } from './context/MagicBarContext';
@@ -6,23 +6,12 @@ import { MagicBarProvider } from './context/MagicBarContext';
 function AppContainer() {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const handleOutsideClick = (e: MouseEvent) => {
-    // Only close if clicking the background overlay
-    const target = e.target as HTMLElement;
-    const overlay = document.getElementById('modal-overlay');
-
-    if (isExpanded && overlay && target === overlay) {
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Only close if clicking directly on the overlay
+    if (e.target === e.currentTarget) {
       setIsExpanded(false);
     }
   };
-
-  // Set up outside click handler
-  useEffect(() => {
-    document.addEventListener('click', handleOutsideClick);
-    return () => {
-      document.removeEventListener('click', handleOutsideClick);
-    };
-  }, [isExpanded]);
 
   return (
     <div>
@@ -30,13 +19,13 @@ function AppContainer() {
       <FloatingBar onClick={() => setIsExpanded(!isExpanded)} />
 
       {/* Background Blur */}
-      <div
-        id='modal-overlay'
-        className={`fixed inset-0 bg-amber-50/60 z-40 ${
-          isExpanded ? 'block' : 'hidden'
-        }`}
-        onClick={handleOutsideClick}
-      ></div>
+      {isExpanded && (
+        <div
+          id='modal-overlay'
+          className='fixed inset-0 bg-amber-50/60 z-40'
+          onClick={handleOverlayClick}
+        ></div>
+      )}
 
       {/* Expanded UI */}
       <ExpandedUI isExpanded={isExpanded} />
